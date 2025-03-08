@@ -3,6 +3,7 @@ package br.com.homebudget.users;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 
@@ -33,11 +34,11 @@ public class UserEntity {
     @Column(name = "created_at", nullable = false, updatable = false)
     Timestamp createdAt;
 
-    @CreationTimestamp
+    @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     Timestamp updatedAt;
 
-    @CreationTimestamp
+    @UpdateTimestamp
     @Column(name = "deleted_at")
     Timestamp deletedAt;
 }

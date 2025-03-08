@@ -32,7 +32,7 @@ public class UserService {
     }
 
     public UserEntity getById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("Usuario Nao Encontrado"));
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("Usuario Não Encontrado"));
     }
 
     @Transactional
@@ -63,7 +63,7 @@ public class UserService {
     @Transactional
     public void delete(Long id) {
         UserEntity entity = userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Status de débito não encontrado."));
+                .orElseThrow(() -> new NotFoundException("Usuario não encontrado."));
         userRepository.deleteById(entity.getId());
     }
 
