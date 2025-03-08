@@ -1,6 +1,7 @@
 package br.com.homebudget.receitas;
 
 import br.com.homebudget.despesas.CategoriaDespesaEnum;
+import br.com.homebudget.investimentos.TipoInvestimentoEnumConverter;
 import br.com.homebudget.users.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -28,7 +29,7 @@ public class ReceitaEntity {
     @JoinColumn(name = "user_id", nullable = false)
     UserEntity user;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = FonteReceitaEnumConverter.class)
     @Column(name = "fonte", length = 255, nullable = false)
     FonteReceitaEnum fonte;
 

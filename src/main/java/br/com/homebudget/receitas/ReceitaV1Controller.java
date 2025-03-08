@@ -20,24 +20,24 @@ import org.springframework.web.bind.annotation.*;
 public class ReceitaV1Controller {
 
     private final ReceitaService receitaService;
-    private final  ReceitaMapper receitaMapper;
+    private final ReceitaMapper receitaMapper;
 
     @GetMapping("/receitas")
-    public ResponseEntity<PagedResponse<ReceitaDTO>> index (
+    public ResponseEntity<PagedResponse<ReceitaDTO>> index(
             @RequestParam(required = false) Long user_id,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int size
-    ){
+    ) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<ReceitaDTO> despesaDTOPage = receitaService.getAll(user_id, pageable);
+        Page<ReceitaDTO> receitaDTOPage = receitaService.getAll(user_id, pageable);
 
         PagedResponse<ReceitaDTO> response = new PagedResponse<>(
-                despesaDTOPage.getContent(),
+                receitaDTOPage.getContent(),
                 new MetaResponse(
-                        (int) despesaDTOPage.getTotalElements(),
-                        despesaDTOPage.getTotalPages(),
-                        despesaDTOPage.getNumber() + 1,
-                        despesaDTOPage.getSize()
+                        (int) receitaDTOPage.getTotalElements(),
+                        receitaDTOPage.getTotalPages(),
+                        receitaDTOPage.getNumber() + 1,
+                        receitaDTOPage.getSize()
                 )
         );
 
@@ -45,28 +45,28 @@ public class ReceitaV1Controller {
     }
 
     @GetMapping("/receitas/{id}")
-    public ResponseEntity<ReceitaDTO> getReceitaById(@PathVariable Long id){
+    public ResponseEntity<ReceitaDTO> getReceitaById(@PathVariable Long id) {
         ReceitaEntity entity = receitaService.getById(id);
         ReceitaDTO receitaDTO = receitaMapper.toDto(entity);
         return ResponseEntity.ok(receitaDTO);
     }
 
     @PostMapping("/receitas")
-    public ResponseEntity<ReceitaDTO> createReceita(@Valid @RequestBody ReceitaInputDTO receitaInputDTO){
+    public ResponseEntity<ReceitaDTO> createReceita(@Valid @RequestBody ReceitaInputDTO receitaInputDTO) {
         ReceitaEntity entity = receitaService.create(receitaInputDTO);
         ReceitaDTO receitaDTO = receitaMapper.toDto(entity);
         return ResponseEntity.status(HttpStatus.CREATED).body(receitaDTO);
     }
 
     @PutMapping("/receitas/{id}")
-    public ResponseEntity<ReceitaDTO> update(@PathVariable Long id, @Valid @RequestBody ReceitaInputDTO receitaInputDTO){
+    public ResponseEntity<ReceitaDTO> update(@PathVariable Long id, @Valid @RequestBody ReceitaInputDTO receitaInputDTO) {
         ReceitaEntity entity = receitaService.update(id, receitaInputDTO);
         ReceitaDTO updatedReceita = receitaMapper.toDto(entity);
         return ResponseEntity.status(HttpStatus.CREATED).body(updatedReceita);
     }
 
     @DeleteMapping("/receitas/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         receitaService.delete(id);
         return ResponseEntity.noContent().build();
     }

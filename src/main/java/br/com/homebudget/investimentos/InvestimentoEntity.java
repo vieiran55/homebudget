@@ -1,5 +1,7 @@
-package br.com.homebudget.despesas;
+package br.com.homebudget.investimentos;
 
+import br.com.homebudget.despesas.CategoriaDespesaEnumConverter;
+import br.com.homebudget.receitas.FonteReceitaEnum;
 import br.com.homebudget.users.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -13,11 +15,11 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "despesas")
+@Table(name = "investimentos")
 @Getter
 @Setter
 @NoArgsConstructor
-public class DespesaEntity {
+public class InvestimentoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -27,12 +29,15 @@ public class DespesaEntity {
     @JoinColumn(name = "user_id", nullable = false)
     UserEntity user;
 
-    @Convert(converter = CategoriaDespesaEnumConverter.class)
-    @Column(name = "categoria", length = 255, nullable = false)
-    CategoriaDespesaEnum categoria;
+    @Convert(converter = TipoInvestimentoEnumConverter.class)
+    @Column(name = "tipo", length = 255, nullable = false)
+    TipoInvestimentoEnum tipo;
 
-    @Column(name = "valor", precision = 10, scale = 2, nullable = false)
-    BigDecimal valor;
+    @Column(name = "valor_inicial", precision = 10, scale = 2, nullable = false)
+    BigDecimal valorInicial;
+
+    @Column(name = "valor_atual", precision = 10, scale = 2, nullable = false)
+    BigDecimal valorAtual;
 
     @Column(name = "descricao", columnDefinition = "TEXT")
     String descricao;
