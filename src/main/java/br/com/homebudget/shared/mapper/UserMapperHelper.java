@@ -1,11 +1,9 @@
-package br.com.homebudget.despesas;
+package br.com.homebudget.shared.mapper;
 
 import br.com.homebudget.users.UserEntity;
 import org.mapstruct.Named;
 
-public class DespesaMapperHelper {
-
-
+public class UserMapperHelper {
     @Named("mapUserIdToUserEntity")
     public static UserEntity mapUserIdToUserEntity(Long userId) {
         if (userId == null) {

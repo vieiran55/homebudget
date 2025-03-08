@@ -12,9 +12,9 @@ public enum CategoriaDespesaEnum {
     EDUCACAO("Educação"),
     OUTROS("Outros");
 
-    private  final String descricao;
+    private final String descricao;
 
-    CategoriaDespesaEnum(String descricao){
+    CategoriaDespesaEnum(String descricao) {
         this.descricao = descricao;
     }
 }

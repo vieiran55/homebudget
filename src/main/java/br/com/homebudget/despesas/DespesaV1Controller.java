@@ -52,7 +52,7 @@ public class DespesaV1Controller {
     }
 
     @PostMapping("/despesas")
-    public ResponseEntity<DespesaDTO> createUser(@Valid @RequestBody DespesaInputDTO despesaInputDTO){
+    public ResponseEntity<DespesaDTO> createDespesa(@Valid @RequestBody DespesaInputDTO despesaInputDTO){
         DespesaEntity entity = despesaService.create(despesaInputDTO);
         DespesaDTO despesaDTO = despesaMapper.toDto(entity);
         return ResponseEntity.status(HttpStatus.CREATED).body(despesaDTO);

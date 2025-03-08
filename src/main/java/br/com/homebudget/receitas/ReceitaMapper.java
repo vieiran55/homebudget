@@ -1,22 +1,22 @@
-package br.com.homebudget.despesas;
+package br.com.homebudget.receitas;
 
-import br.com.homebudget.despesas.dto.DespesaDTO;
-import br.com.homebudget.despesas.dto.DespesaInputDTO;
+import br.com.homebudget.receitas.dto.ReceitaDTO;
+import br.com.homebudget.receitas.dto.ReceitaInputDTO;
 import br.com.homebudget.shared.mapper.UserMapperHelper;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring", uses = UserMapperHelper.class)
-public interface DespesaMapper {
-    DespesaMapper INSTANCE = Mappers.getMapper(DespesaMapper.class);
+public interface ReceitaMapper {
+    ReceitaMapper INSTANCE = Mappers.getMapper(ReceitaMapper.class);
 
     @Mapping(source = "user", target = "userId", qualifiedByName = "mapUserEntityToUserId")
-    DespesaDTO toDto(DespesaEntity entity);
+    ReceitaDTO toDto(ReceitaEntity entity);
 
     @Mapping(source = "userId", target = "user", qualifiedByName = "mapUserIdToUserEntity")
-    DespesaEntity toEntity(DespesaInputDTO inputDTO);
+    ReceitaEntity toEntity(ReceitaInputDTO inputDTO);
 
     @Mapping(target = "id", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateEntityFromDto(DespesaInputDTO inputDTO, @MappingTarget DespesaEntity entity);
+    void updateEntityFromDto(ReceitaInputDTO inputDTO, @MappingTarget ReceitaEntity entity);
 }
