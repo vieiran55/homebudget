@@ -11,7 +11,7 @@ public class DespesaSpecifications {
          if (user_id == null){
              return null;
          }
-         return criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + user_id + "%");
+         return criteriaBuilder.like(criteriaBuilder.lower(root.get("user").get("name")), "%" + user_id + "%");
         };
     }
 
