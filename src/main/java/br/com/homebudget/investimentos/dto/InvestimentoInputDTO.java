@@ -1,7 +1,6 @@
 package br.com.homebudget.investimentos.dto;
 
-import br.com.homebudget.investimentos.TipoInvestimentoEnum;
-import br.com.homebudget.receitas.FonteReceitaEnum;
+import br.com.homebudget.investimentos.enums.TipoInvestimentoEnum;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

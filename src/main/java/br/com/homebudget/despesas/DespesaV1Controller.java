@@ -70,4 +70,48 @@ public class DespesaV1Controller {
         despesaService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/despesas-mensais/{userId}/{mes}/{ano}")
+    public ResponseEntity<PagedResponse<DespesaDTO>> buscarPorMesEAno(
+            @PathVariable Long userId,
+            @PathVariable int mes,
+            @PathVariable int ano,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int size
+    ){
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<DespesaDTO> despesaDTOPage = despesaService.buscarPorMesEAno(userId, mes, ano, pageable);
+
+        PagedResponse<DespesaDTO> response = new PagedResponse<>(
+                despesaDTOPage.getContent(),
+                new MetaResponse(
+                        (int) despesaDTOPage.getTotalElements(),
+                        despesaDTOPage.getTotalPages(),
+                        despesaDTOPage.getNumber() + 1,
+                        despesaDTOPage.getSize()
+                )
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/despesas-user-consolidada/{userId}")
+    public ResponseEntity<PagedResponse<DespesaDTO>> getPastUntilCurrentMonth(
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int size
+    ){
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<DespesaDTO> despesaDTOPage = despesaService.getPastUntilCurrentMonth(userId, pageable);
+
+        PagedResponse<DespesaDTO> response = new PagedResponse<>(
+                despesaDTOPage.getContent(),
+                new MetaResponse(
+                        (int) despesaDTOPage.getTotalElements(),
+                        despesaDTOPage.getTotalPages(),
+                        despesaDTOPage.getNumber() + 1,
+                        despesaDTOPage.getSize()
+                )
+        );
+        return ResponseEntity.ok(response);
+    }
 }

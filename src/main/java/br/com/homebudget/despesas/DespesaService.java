@@ -12,6 +12,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class DespesaService {
@@ -58,5 +62,25 @@ public class DespesaService {
         DespesaEntity entity = despesaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Despesa não econtrada"));
         despesaRepository.deleteById(entity.getId());
+    }
+
+    public Page<DespesaDTO> buscarPorMesEAno(Long userId, int mes, int ano, Pageable pageable){
+        YearMonth yearMonth = YearMonth.of(ano, mes);
+        LocalDate dataInicio = yearMonth.atDay(1);
+        LocalDate dataFim = yearMonth.atEndOfMonth();
+
+        Specification<DespesaEntity> spec = Specification
+                .where(DespesaSpecifications.byUserId(userId))
+                .and(DespesaSpecifications.byDateBetween(dataInicio, dataFim));
+
+        return despesaRepository.findAll(spec, pageable).map(despesaMapper::toDto);
+    }
+
+    public Page<DespesaDTO> getPastUntilCurrentMonth(Long userId, Pageable pageable){
+        LocalDate currentDate = LocalDate.now();
+
+        return despesaRepository
+                .findPastUntilCurrentMonth(userId, currentDate.getYear(), currentDate.getMonthValue(), pageable)
+                .map(despesaMapper::toDto);
     }
 }

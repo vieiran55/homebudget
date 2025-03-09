@@ -1,6 +1,9 @@
 package br.com.homebudget.receitas;
 
 
+import br.com.homebudget.despesas.DespesaEntity;
+import br.com.homebudget.despesas.DespesaSpecifications;
+import br.com.homebudget.despesas.dto.DespesaDTO;
 import br.com.homebudget.receitas.dto.ReceitaDTO;
 import br.com.homebudget.receitas.dto.ReceitaInputDTO;
 import br.com.homebudget.shared.exceptions.NotFoundException;
@@ -12,6 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.YearMonth;
 
 @Service
 @RequiredArgsConstructor
@@ -59,5 +65,25 @@ public class ReceitaService {
         ReceitaEntity entity = receitaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Despesa não econtrada"));
         receitaRepository.deleteById(entity.getId());
+    }
+
+    public Page<ReceitaDTO> buscarPorMesEAno(Long userId, int mes, int ano, Pageable pageable){
+        YearMonth yearMonth = YearMonth.of(ano, mes);
+        LocalDate dataInicio = yearMonth.atDay(1);
+        LocalDate dataFim = yearMonth.atEndOfMonth();
+
+        Specification<ReceitaEntity> spec = Specification
+                .where(ReceitaSpecifications.byUserId(userId))
+                .and(ReceitaSpecifications.byDateBetween(dataInicio, dataFim));
+
+        return receitaRepository.findAll(spec, pageable).map(receitaMapper::toDto);
+    }
+
+    public Page<ReceitaDTO> getPastUntilCurrentMonth(Long userId, Pageable pageable){
+        LocalDate currentDate = LocalDate.now();
+
+        return receitaRepository
+                .findPastUntilCurrentMonth(userId, currentDate.getYear(), currentDate.getMonthValue(), pageable)
+                .map(receitaMapper::toDto);
     }
 }

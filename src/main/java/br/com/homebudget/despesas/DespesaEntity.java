@@ -1,5 +1,7 @@
 package br.com.homebudget.despesas;
 
+import br.com.homebudget.despesas.enums.CategoriaDespesaEnum;
+import br.com.homebudget.despesas.enums.CategoriaDespesaEnumConverter;
 import br.com.homebudget.users.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;

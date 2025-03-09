@@ -1,6 +1,5 @@
-package br.com.homebudget.receitas;
+package br.com.homebudget.receitas.enums;
 
-import br.com.homebudget.despesas.CategoriaDespesaEnum;
 import br.com.homebudget.shared.helper.EnumConverter;
 
 public class FonteReceitaEnumConverter extends EnumConverter<FonteReceitaEnum> {

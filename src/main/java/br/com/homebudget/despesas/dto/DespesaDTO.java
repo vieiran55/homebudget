@@ -1,6 +1,6 @@
 package br.com.homebudget.despesas.dto;
 
-import br.com.homebudget.despesas.CategoriaDespesaEnum;
+import br.com.homebudget.despesas.enums.CategoriaDespesaEnum;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -1,6 +1,6 @@
 package br.com.homebudget.receitas.dto;
 
-import br.com.homebudget.receitas.FonteReceitaEnum;
+import br.com.homebudget.receitas.enums.FonteReceitaEnum;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

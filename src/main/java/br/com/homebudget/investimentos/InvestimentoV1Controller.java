@@ -1,5 +1,6 @@
 package br.com.homebudget.investimentos;
 
+import br.com.homebudget.despesas.dto.DespesaDTO;
 import br.com.homebudget.investimentos.dto.InvestimentoDTO;
 import br.com.homebudget.investimentos.dto.InvestimentoInputDTO;
 import br.com.homebudget.shared.dto.MetaResponse;
@@ -68,5 +69,49 @@ public class InvestimentoV1Controller {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         investimentoService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/investimentos-mensais/{userId}/{mes}/{ano}")
+    public ResponseEntity<PagedResponse<InvestimentoDTO>> buscarPorMesEAno(
+            @PathVariable Long userId,
+            @PathVariable int mes,
+            @PathVariable int ano,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int size
+    ){
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<InvestimentoDTO> investimentoDTOPage = investimentoService.buscarPorMesEAno(userId, mes, ano, pageable);
+
+        PagedResponse<InvestimentoDTO> response = new PagedResponse<>(
+                investimentoDTOPage.getContent(),
+                new MetaResponse(
+                        (int) investimentoDTOPage.getTotalElements(),
+                        investimentoDTOPage.getTotalPages(),
+                        investimentoDTOPage.getNumber() + 1,
+                        investimentoDTOPage.getSize()
+                )
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/investimentos-user-consolidada/{userId}")
+    public ResponseEntity<PagedResponse<InvestimentoDTO>> getPastUntilCurrentMonth(
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int size
+    ){
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<InvestimentoDTO> investimentoDTOPage = investimentoService.getPastUntilCurrentMonth(userId, pageable);
+
+        PagedResponse<InvestimentoDTO> response = new PagedResponse<>(
+                investimentoDTOPage.getContent(),
+                new MetaResponse(
+                        (int) investimentoDTOPage.getTotalElements(),
+                        investimentoDTOPage.getTotalPages(),
+                        investimentoDTOPage.getNumber() + 1,
+                        investimentoDTOPage.getSize()
+                )
+        );
+        return ResponseEntity.ok(response);
     }
 }

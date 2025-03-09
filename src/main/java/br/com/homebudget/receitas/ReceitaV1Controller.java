@@ -1,6 +1,5 @@
 package br.com.homebudget.receitas;
 
-import br.com.homebudget.despesas.dto.DespesaInputDTO;
 import br.com.homebudget.receitas.dto.ReceitaDTO;
 import br.com.homebudget.receitas.dto.ReceitaInputDTO;
 import br.com.homebudget.shared.dto.MetaResponse;
@@ -69,5 +68,49 @@ public class ReceitaV1Controller {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         receitaService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/receitas-mensais/{userId}/{mes}/{ano}")
+    public ResponseEntity<PagedResponse<ReceitaDTO>> buscarPorMesEAno(
+            @PathVariable Long userId,
+            @PathVariable int mes,
+            @PathVariable int ano,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int size
+    ){
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<ReceitaDTO> receitaDTOPage = receitaService.buscarPorMesEAno(userId, mes, ano, pageable);
+
+        PagedResponse<ReceitaDTO> response = new PagedResponse<>(
+                receitaDTOPage.getContent(),
+                new MetaResponse(
+                        (int) receitaDTOPage.getTotalElements(),
+                        receitaDTOPage.getTotalPages(),
+                        receitaDTOPage.getNumber() + 1,
+                        receitaDTOPage.getSize()
+                )
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/receitas-user-consolidada/{userId}")
+    public ResponseEntity<PagedResponse<ReceitaDTO>> getPastUntilCurrentMonth(
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int size
+    ){
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<ReceitaDTO> receitaDTOPage = receitaService.getPastUntilCurrentMonth(userId, pageable);
+
+        PagedResponse<ReceitaDTO> response = new PagedResponse<>(
+                receitaDTOPage.getContent(),
+                new MetaResponse(
+                        (int) receitaDTOPage.getTotalElements(),
+                        receitaDTOPage.getTotalPages(),
+                        receitaDTOPage.getNumber() + 1,
+                        receitaDTOPage.getSize()
+                )
+        );
+        return ResponseEntity.ok(response);
     }
 }

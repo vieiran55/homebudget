@@ -1,4 +1,4 @@
-package br.com.homebudget.investimentos;
+package br.com.homebudget.investimentos.enums;
 
 import br.com.homebudget.shared.helper.EnumConverter;
 

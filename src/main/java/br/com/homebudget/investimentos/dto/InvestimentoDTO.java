@@ -1,7 +1,6 @@
 package br.com.homebudget.investimentos.dto;
 
-import br.com.homebudget.investimentos.TipoInvestimentoEnum;
-import br.com.homebudget.receitas.FonteReceitaEnum;
+import br.com.homebudget.investimentos.enums.TipoInvestimentoEnum;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

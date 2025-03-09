@@ -1,5 +1,6 @@
-package br.com.homebudget.investimentos;
+package br.com.homebudget.investimentos.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 @Getter
@@ -39,6 +40,12 @@ public enum TipoInvestimentoEnum {
     }
 
     public String getDescricao() {
+        return descricao;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
         return descricao;
     }
 }
